@@ -28,6 +28,7 @@ src/main/resources
 
 #lit
 src/main/java/com/example/examplemod/mc_*
+src/main/java/com/example/examplemod/ExampleMod
 
 #etc
 MinecraftForge-Credits.txt
