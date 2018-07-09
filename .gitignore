@@ -1,0 +1,46 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+setup
+gradle
+
+#resource
+src/main/resource/
+
+#lit
+src/main/java/com/example/examplemod/mc_*
+
+#etc
+MinecraftForge-Credits.txt
+build.gradle
+CREDITS-fml.txt
+Paulscode IBXM Library License.txt
+Paulscode SoundSystem CodecIBXM License.txt
+forge-1.10.2-12.18.3.2316-changelog.txt
+README.txt
+gradle.properties
+gradlew
+setup-mac.command
+gradlew.bat
+setup-windows.bat
+LICENSE-new.txt
+MinecraftForge.iml
