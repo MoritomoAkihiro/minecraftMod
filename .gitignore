@@ -24,7 +24,7 @@ setup
 gradle
 
 #resource
-src/main/resource/
+src/main/resources
 
 #lit
 src/main/java/com/example/examplemod/mc_*
