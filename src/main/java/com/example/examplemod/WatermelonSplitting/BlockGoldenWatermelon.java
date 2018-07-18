@@ -3,18 +3,25 @@ package com.example.examplemod.WatermelonSplitting;
 import com.example.examplemod.ExampleMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockGoldenWatermelon extends Block {
     private final Minecraft mc=Minecraft.getMinecraft();
@@ -27,6 +34,24 @@ public class BlockGoldenWatermelon extends Block {
         setUnlocalizedName(ExampleMod.MODID + "_golden_melon");
         setHardness(30);
     }
+
+    //距離10以内に入ったら盲目のエフェクトかかる
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){
+        int posX = pos.getX();
+        int posY = pos.getY();
+        int posZ = pos.getZ();
+
+        double distance = mc.thePlayer.getDistance(posX,posY,posZ);//プレイヤーとスイカブロックの距離
+
+        if(distance<10){//距離10以内で盲目
+            PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10000,100);//ポーションエフェクトをつける
+            mc.thePlayer.addPotionEffect(effect);
+        }else if(distance>10 && distance<13){//距離10以上13以内でエフェクトなくす
+            mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
+        }
+    }
+
+
 
     @Override
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn){//このブロックをクリックしたときの処理
@@ -42,19 +67,14 @@ public class BlockGoldenWatermelon extends Block {
             return;
         }
 
-        int posX = pos.getX();
-        int posY = pos.getY();
-        int posZ = pos.getZ();
 
-        double distance = mc.thePlayer.getDistance(posX,posY,posZ);
-        if(distance==8){
-            PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10,10);
-            playerIn.addPotionEffect(effect);
-        }
-        System.out.println("distance"+posX+" ,  "+posY+"  ,  "+posZ);
-        System.out.println("distance"+distance);
 
         //メインハンドに棒をもってブロックを叩いた時の処理を下に記す。
+
+        mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
+        worldIn.setBlockState(pos,Blocks.AIR.getDefaultState());//スイカブロック壊す
+
+        //壊れた後をつけたい
         Vec3d direction=mc.thePlayer.getForward();//今向いている方角をVec3d型で受け取る
         String str = direction.toString().replace("(","").replace(")","").replaceAll(" ","");//Vec3d型をString型に変換
         String[] angle = str.split(",",0);//String型のx,y,zをそれぞれ配列に分ける

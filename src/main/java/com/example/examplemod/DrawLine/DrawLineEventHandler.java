@@ -29,6 +29,8 @@ public class DrawLineEventHandler {
         }
     }
 
+
+
     private void drawLineFromPlayerToEntity(RenderWorldLastEvent event){
         //敵などの検索
         AxisAlignedBB boundingBox =new AxisAlignedBB(
