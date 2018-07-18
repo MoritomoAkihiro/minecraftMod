@@ -1,4 +1,4 @@
-package com.example.examplemod.mc_14_houcecapsule;
+package com.example.examplemod.houcecapsule;
 
 import com.example.examplemod.ExampleMod;
 import net.minecraft.block.BlockButton;

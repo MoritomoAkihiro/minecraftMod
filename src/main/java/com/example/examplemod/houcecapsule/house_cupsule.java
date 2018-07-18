@@ -1,4 +1,4 @@
-package com.example.examplemod.mc_14_houcecapsule;
+package com.example.examplemod.houcecapsule;
 
 import com.example.examplemod.ExampleMod;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,7 +32,7 @@ public class house_cupsule extends ItemSnowball {
                 SoundCategory.NEUTRAL,0.5F,0.4F/(itemRand.nextFloat()*0.4F+0.8F));
 
         if(!worldIn.isRemote){
-            Entityhouse_cupsule entity=new Entityhouse_cupsule(worldIn,playerIn);
+            com.example.examplemod.houcecapsule.Entityhouse_cupsule entity=new com.example.examplemod.houcecapsule.Entityhouse_cupsule(worldIn,playerIn);
             entity.setHeadingFromThrower(playerIn,playerIn.rotationPitch,playerIn.rotationYaw,0.0F,1.5F,1.0F);
             worldIn.spawnEntityInWorld(entity);
         }
