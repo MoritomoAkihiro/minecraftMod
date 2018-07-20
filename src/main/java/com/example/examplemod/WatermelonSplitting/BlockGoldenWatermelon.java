@@ -30,8 +30,8 @@ public class BlockGoldenWatermelon extends Block {
 
         super(Material.GOURD);//ウリ系のブロック
         setCreativeTab(CreativeTabs.BUILDING_BLOCKS);//タブの設定
-        setRegistryName("golden_melon");//名前
-        setUnlocalizedName(ExampleMod.MODID + "_golden_melon");
+        setRegistryName("goldenwatermelon");//名前
+        setUnlocalizedName(ExampleMod.MODID + "_goldenmelon");
         setHardness(30);
     }
 
@@ -46,7 +46,7 @@ public class BlockGoldenWatermelon extends Block {
         if(distance<10){//距離10以内で盲目
             PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10000,100);//ポーションエフェクトをつける
             mc.thePlayer.addPotionEffect(effect);
-        }else if(distance>10 && distance<13){//距離10以上13以内でエフェクトなくす
+        }else if(distance>10 && distance<18){//距離10以上18以内でエフェクトなくす
             mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
         }
     }
