@@ -6,13 +6,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -32,7 +36,7 @@ public class BlockGoldenWatermelon extends Block {
         setCreativeTab(CreativeTabs.BUILDING_BLOCKS);//タブの設定
         setRegistryName("goldenwatermelon");//名前
         setUnlocalizedName(ExampleMod.MODID + "_goldenmelon");
-        setHardness(30);
+        setHardness(1);
     }
 
     //距離10以内に入ったら盲目のエフェクトかかる
@@ -74,10 +78,22 @@ public class BlockGoldenWatermelon extends Block {
         mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
         worldIn.setBlockState(pos,Blocks.AIR.getDefaultState());//スイカブロック壊す
 
+        //スイカブロックを出現させる。
+        ItemStack melon = new ItemStack(Items.MELON,10);
+        for (int i = 0; i <3 ; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 2; k++) {
+                    worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX()-0.5+0.5*i, pos.getY()+0.5*k, pos.getZ()-0.5+0.5*j, melon));
+                }
+            }
+        }
+
         //壊れた後をつけたい
         Vec3d direction=mc.thePlayer.getForward();//今向いている方角をVec3d型で受け取る
         String str = direction.toString().replace("(","").replace(")","").replaceAll(" ","");//Vec3d型をString型に変換
         String[] angle = str.split(",",0);//String型のx,y,zをそれぞれ配列に分ける
+        //x,y,zをdouble型に変換する。、
+        //x,y,zはベクトルとして得られる。
         double x=Double.parseDouble(angle[0]);
         double y=Double.parseDouble(angle[1]);
         double z=Double.parseDouble(angle[2]);
