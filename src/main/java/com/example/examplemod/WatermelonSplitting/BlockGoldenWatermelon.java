@@ -23,6 +23,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -47,11 +48,21 @@ public class BlockGoldenWatermelon extends Block {
 
         double distance = mc.thePlayer.getDistance(posX,posY,posZ);//プレイヤーとスイカブロックの距離
 
-        if(distance<10){//距離10以内で盲目
-            PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10000,100);//ポーションエフェクトをつける
+//距離10以内かつ盲目ついていなかったら
+        if(distance<15 && !mc.thePlayer.isPotionActive(MobEffects.BLINDNESS)){
+            //ポーションエフェクトをつける
+            PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10000,100);
             mc.thePlayer.addPotionEffect(effect);
-        }else if(distance>10 && distance<18){//距離10以上18以内でエフェクトなくす
-            mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
+            mc.thePlayer.addChatComponentMessage(new TextComponentString("スイカわりモードが始まった！！"));
+            mc.thePlayer.addChatComponentMessage(new TextComponentString("スイカを棒で叩くんだ！！"));
+
+
+            //距離10以上かつ盲目ついていたらエフェクトなくす
+        }else if(distance>15 && mc.thePlayer.isPotionActive(MobEffects.BLINDNESS)){
+            //ポーションエフェクト（盲目）をはずす。
+            mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);
+            mc.thePlayer.addChatComponentMessage(new TextComponentString("スイカわりモードが終了した！！"));
+
         }
     }
 
@@ -99,9 +110,8 @@ public class BlockGoldenWatermelon extends Block {
         double z=Double.parseDouble(angle[2]);
 
         if(!worldIn.isRemote) {
-            System.out.println(x + " , " + y + " , " + z);//配列を表示する。
-            System.out.println("足し算"+(x+y+z));
-            System.out.println("掛け算"+x*y*z);
+            System.out.println("xは"+x + " , yは" + y + " , zは" + z);//配列を表示する。
+
         }
     }
 }
