@@ -47,6 +47,14 @@ public class Entityhouse_cupsule extends EntitySnowball {
     }
 
 
+    //球の弾道に爆発
+    @Override
+    public void onUpdate(){
+        worldObj.createExplosion(this,this.posX,this.posY,this.posZ,3,true);
+        super.onUpdate();
+    }
+
+
         @Override
         protected void onImpact(RayTraceResult result) {
             if(result.typeOfHit == RayTraceResult.Type.BLOCK){

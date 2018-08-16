@@ -32,7 +32,6 @@ public class BlockGoldenWatermelon extends Block {
     private final Minecraft mc=Minecraft.getMinecraft();
 
     public BlockGoldenWatermelon() {
-
         super(Material.GOURD);//ウリ系のブロック
         setCreativeTab(CreativeTabs.BUILDING_BLOCKS);//タブの設定
         setRegistryName("goldenwatermelon");//名前
@@ -45,10 +44,10 @@ public class BlockGoldenWatermelon extends Block {
         int posX = pos.getX();
         int posY = pos.getY();
         int posZ = pos.getZ();
+        //プレイヤーとスイカブロックの距離
+        double distance = mc.thePlayer.getDistance(posX,posY,posZ);
 
-        double distance = mc.thePlayer.getDistance(posX,posY,posZ);//プレイヤーとスイカブロックの距離
-
-//距離10以内かつ盲目ついていなかったら
+    //距離10以内かつ盲目ついていなかったら
         if(distance<15 && !mc.thePlayer.isPotionActive(MobEffects.BLINDNESS)){
             //ポーションエフェクトをつける
             PotionEffect effect = new PotionEffect(MobEffects.BLINDNESS,10000,100);
@@ -67,25 +66,23 @@ public class BlockGoldenWatermelon extends Block {
     }
 
 
-
     @Override
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn){//このブロックをクリックしたときの処理
         if(playerIn==null){//おまじない
             return;
         }
-        if(playerIn.getHeldItemMainhand()==null){//メインハンドに何も持ってなかったら処理終了
+        //メインハンドに何も持ってなかったら処理終了
+        if(playerIn.getHeldItemMainhand()==null){
             return;
         }
-        Item item=playerIn.getHeldItemMainhand().getItem();//簡単のためItem型のitemにプレイヤーの右手に持ってるものを代入する。
-
-        if(item!= Items.STICK){//メインハンドに棒じゃなかったら処理終了
+        //簡単のためItem型のitemにプレイヤーの右手に持ってるものを代入する。
+        Item item=playerIn.getHeldItemMainhand().getItem();
+        //メインハンドに棒じゃなかったら処理終了
+        if(item!= Items.STICK){
             return;
         }
-
-
 
         //メインハンドに棒をもってブロックを叩いた時の処理を下に記す。
-
         mc.thePlayer.removePotionEffect(MobEffects.BLINDNESS);//ポーションエフェクト（盲目）をはずす。
         worldIn.setBlockState(pos,Blocks.AIR.getDefaultState());//スイカブロック壊す
 
@@ -104,14 +101,21 @@ public class BlockGoldenWatermelon extends Block {
         String str = direction.toString().replace("(","").replace(")","").replaceAll(" ","");//Vec3d型をString型に変換
         String[] angle = str.split(",",0);//String型のx,y,zをそれぞれ配列に分ける
         //x,y,zをdouble型に変換する。、
-        //x,y,zはベクトルとして得られる。
+        //x,y,zは単位ベクトルとして得られる。
         double x=Double.parseDouble(angle[0]);
         double y=Double.parseDouble(angle[1]);
         double z=Double.parseDouble(angle[2]);
 
         if(!worldIn.isRemote) {
             System.out.println("xは"+x + " , yは" + y + " , zは" + z);//配列を表示する。
-
         }
+
+        //正面方向のスイカブロックの後ろを爆発させる
+        for (int i = 0; i <5 ; i++) {
+            // BlockPos zangekiPos = new BlockPos(pos.getX() + x * i, pos.getY() - 1, pos.getZ() + z * i);
+            //worldIn.setBlockToAir(zangekiPos);
+             worldIn.createExplosion(null,pos.getX() + x * (i)*4, pos.getY() + y*(1)*4, pos.getZ() + z * (i)*4,i+1,true);
+        }
+
     }
 }
